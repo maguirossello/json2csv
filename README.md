@@ -9,6 +9,17 @@ Conversor de archivos JSON a CSV. Proyecto de la materia Calidad de Software
 - Python: `3.12`
 - Licencia: `MIT`
 
+## Uso por línea de comandos
+
+```bash
+json2csv entrada.json --output salida.csv
+json2csv entrada.json --output salida.csv --delimiter ";"
+```
+
+Ante una entrada inválida (JSON malformado, archivo inexistente, registros que
+no son objetos) el comando termina con un mensaje de error y código de salida
+distinto de cero.
+
 ## Uso como librería
 
 ```python
@@ -35,10 +46,6 @@ JsonToCsvConverter().convert_file(
     )
 )
 ```
-
-La entrada puede ser un arreglo de objetos JSON o un único objeto. Ante una
-entrada inválida (JSON malformado, archivo inexistente, registros que no son
-objetos) la herramienta lanza un error controlado.
 
 ## Entorno de desarrollo
 

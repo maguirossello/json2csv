@@ -2,6 +2,7 @@
 
 ## 1.0 build 000 - 2026-06-21
 
+- feat: interfaz de línea de comandos (`json2csv entrada.json --output salida.csv`).
 - feat: conversión JSON a CSV en memoria (`convert_text`) y a archivo (`convert_file`).
 - feat: validación robusta de errores (JSON malformado, archivo inexistente,
   registros que no son objetos, delimitador inválido).
