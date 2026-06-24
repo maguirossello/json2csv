@@ -6,7 +6,7 @@ Software - UFASTA - Mar del Plata.
 
 ## Estado
 
-- Versión: `1.0 build 000`
+- Versión: `1.0 build 001`
 - Python: `3.12`
 - Licencia: `MIT`
 

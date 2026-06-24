@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0 build 001 - 2026-06-24
+
+- Actualizacion automatica de build tras push exitoso.
+
 ## 1.0 build 000 - 2026-06-22
 
 - feat: opciones avanzadas — lectura de JSON Lines (`--json-lines`), ordenamiento
