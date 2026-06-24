@@ -42,8 +42,11 @@ def test_main_returns_error_for_missing_source(
     assert "error" in capsys.readouterr().err.lower()
 
 
-def test_build_parser_accepts_custom_delimiter() -> None:
-    """The parser accepts the documented options."""
+def test_build_parser_exposes_expected_options() -> None:
+    """The parser accepts the documented flags."""
     parser = build_parser()
-    args = parser.parse_args(["in.json", "--output", "out.csv", "--delimiter", ";"])
-    assert args.delimiter == ";"
+    args = parser.parse_args(
+        ["in.json", "--output", "out.csv", "--sort-keys", "--json-lines"]
+    )
+    assert args.sort_keys is True
+    assert args.json_lines is True

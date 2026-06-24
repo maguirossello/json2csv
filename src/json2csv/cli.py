@@ -29,6 +29,21 @@ def build_parser() -> argparse.ArgumentParser:
         help="Single-character CSV delimiter.",
     )
     parser.add_argument(
+        "--sort-keys",
+        action="store_true",
+        help="Sort the CSV columns alphabetically.",
+    )
+    parser.add_argument(
+        "--json-lines",
+        action="store_true",
+        help="Read one JSON object per line instead of a JSON array.",
+    )
+    parser.add_argument(
+        "--ensure-ascii",
+        action="store_true",
+        help="Escape non-ASCII characters when serializing nested values.",
+    )
+    parser.add_argument(
         "--version",
         action="version",
         version=f"%(prog)s {VERSION}",
@@ -41,7 +56,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
 
-    options = ConversionOptions(delimiter=args.delimiter)
+    options = ConversionOptions(
+        delimiter=args.delimiter,
+        sort_keys=args.sort_keys,
+        json_lines=args.json_lines,
+        ensure_ascii=args.ensure_ascii,
+    )
 
     try:
         request = ConversionRequest(
@@ -49,7 +69,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             destination=args.output,
             options=options,
         )
-        output_path = JsonToCsvConverter().convert_file(request)
+        converter = JsonToCsvConverter()
+        output_path = converter.convert_file(request)
     except Json2CsvError as error:
         sys.stderr.write(f"json2csv: error: {error}\n")
         return 1
