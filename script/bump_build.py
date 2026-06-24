@@ -12,7 +12,7 @@ README_FILE = ROOT / "README.md"
 CHANGELOG_FILE = ROOT / "CHANGELOG.md"
 BUILD_PATTERN = re.compile(r'BUILD = "(\d{3})"')
 README_PATTERN = re.compile(r"`1\.0 build (\d{3})`")
-CHANGELOG_PATTERN = re.compile(r"## 1\.0 build (\d{3}) - ")
+CHANGELOG_MARKER = "# CHANGELOG\n\n"
 
 
 def next_build(current: str) -> str:
@@ -48,13 +48,19 @@ def main() -> int:
         encoding="utf-8",
     )
 
-    changelog_content = CHANGELOG_FILE.read_text(encoding="utf-8")
     today = datetime.now(UTC).date().isoformat()
     entry = (
         f"## 1.0 build {new_build} - {today}\n\n"
         "- Actualizacion automatica de build tras push exitoso.\n\n"
     )
-    CHANGELOG_FILE.write_text(entry + changelog_content, encoding="utf-8")
+    changelog_content = CHANGELOG_FILE.read_text(encoding="utf-8")
+    if CHANGELOG_MARKER in changelog_content:
+        changelog_content = changelog_content.replace(
+            CHANGELOG_MARKER, CHANGELOG_MARKER + entry, 1
+        )
+    else:
+        changelog_content = entry + changelog_content
+    CHANGELOG_FILE.write_text(changelog_content, encoding="utf-8")
     return 0
 
 
