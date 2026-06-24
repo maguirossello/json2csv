@@ -6,7 +6,7 @@ import csv
 import io
 import json
 from pathlib import Path
-from typing import Any, Final
+from typing import Any, Final, cast
 
 from json2csv.exceptions import ConversionRuntimeError, InputValidationError
 from json2csv.models import ConversionOptions, ConversionRequest
@@ -69,7 +69,8 @@ class JsonToCsvConverter:
         if isinstance(data, dict):
             return [self._ensure_object(data)]
         if isinstance(data, list):
-            return [self._ensure_object(item) for item in data]
+            items = cast("list[object]", data)
+            return [self._ensure_object(item) for item in items]
 
         msg = "The JSON top level must be an object or an array of objects."
         raise InputValidationError(msg)
@@ -79,7 +80,7 @@ class JsonToCsvConverter:
         if not isinstance(item, dict):
             msg = "Each JSON record must be an object."
             raise InputValidationError(msg)
-        return item
+        return cast("dict[str, Any]", item)
 
     def _serialize_csv(
         self,
