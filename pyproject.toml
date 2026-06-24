@@ -1,0 +1,93 @@
+[build-system]
+requires = ["setuptools>=75.8.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "json2csv"
+version = "1.0.0"
+description = "Typed JSON to CSV converter package and CLI for Python 3.12."
+readme = "README.md"
+requires-python = ">=3.12,<3.14"
+license = { text = "MIT" }
+authors = [
+  { name = "Maria Magdalena Rossello" },
+]
+keywords = ["json", "csv", "converter", "cli", "python"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Software Development :: Libraries",
+  "Topic :: Utilities",
+]
+
+[project.urls]
+Homepage = "https://github.com/example/json2csv"
+Documentation = "https://github.com/example/json2csv"
+
+[project.scripts]
+json2csv = "json2csv.cli:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+extend-exclude = """
+(
+  ^/ejemplos/
+  | ^/script/
+  | ^/docs/site/
+)
+"""
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+extend-exclude = ["docs/site", "ejemplos", "script"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B", "I", "D", "UP"]
+ignore = ["D203", "D213"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "pep257"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.pytest.ini_options]
+addopts = "--strict-markers --strict-config --cov=src/json2csv --cov-report=term-missing --cov-fail-under=85"
+testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["src/json2csv"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 85
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+packages = ["json2csv"]
+exclude = "(^ejemplos/|^script/|^docs/site/)"
+
+[tool.pyright]
+pythonVersion = "3.12"
+include = ["src", "tests"]
+exclude = ["ejemplos", "script", "docs/site"]
+typeCheckingMode = "strict"
+
+[tool.bandit]
+exclude_dirs = ["tests", "ejemplos", "script", "docs/site"]
+targets = ["src"]

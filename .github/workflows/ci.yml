@@ -1,0 +1,58 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m venv .venv312
+          .venv312/bin/python -m pip install --upgrade pip
+          .venv312/bin/python -m pip install -r requirements.txt
+          .venv312/bin/python -m pip install -e .
+
+      - name: Ruff (lint + PEP8 + PEP257)
+        run: .venv312/bin/python -m ruff check src tests
+
+      - name: Black (format check)
+        run: .venv312/bin/python -m black --check src tests
+
+      - name: MyPy (static types)
+        run: .venv312/bin/python -m mypy src tests
+
+      - name: Pyright (static types)
+        run: .venv312/bin/python -m pyright src tests
+
+      - name: Pytest (unit + hypothesis, coverage >= 85%)
+        run: .venv312/bin/python -m pytest
+
+      - name: Bandit (security)
+        run: .venv312/bin/python -m bandit -r src
+
+      - name: Bump build number
+        if: github.event_name == 'push'
+        run: .venv312/bin/python script/bump_build.py
+
+      - name: Build docs (pdoc)
+        run: .venv312/bin/python -m pdoc --output-directory docs/site src/json2csv
+
+      - name: Upload docs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-site
+          path: docs/site/
