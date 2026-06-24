@@ -2,6 +2,11 @@
 
 Registro de requerimientos que originan un push, con su fecha.
 
+## 2026-06-22
+
+- H4: Soportar entrada en formato JSON Lines.
+- H5: Permitir ordenar columnas y serializar valores anidados, nulos y booleanos.
+
 ## 2026-06-21
 
 - H3: Exponer la conversión como un comando de terminal con opción de delimitador.

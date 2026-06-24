@@ -11,6 +11,9 @@ class ConversionOptions:
     """Immutable options for JSON-to-CSV conversion."""
 
     delimiter: str = ","
+    sort_keys: bool = False
+    json_lines: bool = False
+    ensure_ascii: bool = False
     input_encoding: str = "utf-8"
     output_encoding: str = "utf-8"
 

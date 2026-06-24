@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.0 build 000 - 2026-06-22
+
+- feat: opciones avanzadas — lectura de JSON Lines (`--json-lines`), ordenamiento
+  de columnas (`--sort-keys`), escape ASCII (`--ensure-ascii`) y serialización de
+  valores anidados, nulos y booleanos.
+
 ## 1.0 build 000 - 2026-06-21
 
 - feat: interfaz de línea de comandos (`json2csv entrada.json --output salida.csv`).
